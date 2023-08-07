@@ -1,9 +1,45 @@
-<p id="mascarpone"></p>
-<button onclick="updateMascarpone()">update</button>
-<script>
-    function shuffleString(str) {
-      // 文字列を配列に分割して、各文字を要素とする配列にします
-      var arr = str.split('');
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ゆっくりパーティクルアニメーション</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    
+    .particle {
+      position: absolute;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // パーティクルの数
+    const numParticles = 10;
+    
+    // パーティクルを生成する関数
+    function createParticles() {
+      const container = document.createElement('div');
+      container.classList.add('particle-container');
+      
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.textContent = generateRandomString();
+        container.appendChild(particle);
+      }
+      
+      document.body.appendChild(container);
+    }
+    
+    // ランダムな文字列を生成する関数
+    function generateRandomString(length) {
+      const characters = 'マスカルポーネ';
+      var arr = characters.split('');
       
       // Fisher-Yatesアルゴリズムを用いて配列をシャッフルします
       for (var i = arr.length - 1; i > 0; i--) {
@@ -17,10 +53,26 @@
       return arr.join('');
     }
     
-    function updateMascarpone() {
-        var str = 'マスカルポーネ';
-        var shuffledStr = shuffleString(str);
-        document.getElementById("mascarpone").innerText = shuffledStr;
+    // パーティクルを動かす関数
+    function moveParticles() {
+      const particles = document.querySelectorAll('.particle');
+      
+      particles.forEach(particle => {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        
+        particle.style.transition = 'transform 5s ease'; // ゆっくりとした動きにする
+        particle.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      
+      setTimeout(moveParticles, 4000);
     }
-    updateMascarpone();
-</script>
+    
+    createParticles();
+    moveParticles();
+  </script>
+
+<button onclick="createParticles()">mascarpone</button>
+
+</body>
+</html>
